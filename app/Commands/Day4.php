@@ -54,8 +54,7 @@ class Day4 extends Command
         $puzzle = file($this->argument('data'), FILE_IGNORE_NEW_LINES);
 
         // Convert to a regular 2D array.
-        foreach ($puzzle as $row)
-        {
+        foreach ($puzzle as $row) {
             $puzzle_array[] = str_split($row, 1);
         }
 
@@ -73,14 +72,19 @@ class Day4 extends Command
             }
         }
         // Merge the rows of the transposed puzzle back into a single string.
-        foreach ($puzzle_array_t as $r)
-        {
+        foreach ($puzzle_array_t as $r) {
             $puzzle_t[] = implode($r);
         }
         // Search the transposed array.
         $this->nXmas += $this->xmasSearch($puzzle_t);
 
         // Map the diagonals to an array
+        $puzzle_diag = array();
+        for ($i = 0; $i < $nRow; $i++) {
+            for ($j = 0; $j < $nRow; $j++) {
+
+            }
+        }
     }
 
 }
