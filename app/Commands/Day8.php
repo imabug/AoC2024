@@ -2,7 +2,7 @@
 
 namespace App\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Collection;
 use LaravelZero\Framework\Commands\Command;
 
 class Day8 extends Command
@@ -12,28 +12,99 @@ class Day8 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:day8';
+    protected $signature = 'app:day8 {data}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Advent of Code 2024 Day 8';
+
+    /**
+     * Size of the puzzle matrix
+     *
+     * @var int
+     */
+    protected int $nRow = 0;
+    protected int $nCol = 0;
+
+    /**
+     * Array of antenna locations
+     *
+     * @var Collection
+     */
+    protected Collection $antennaLoc;
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        //
-    }
+        $puzzle = file($this->argument('data'), FILE_IGNORE_NEW_LINES);
+        $this->nRow = count($puzzle);
+        $this->nCol = strlen($puzzle[0]);
 
-    /**
-     * Define the command's schedule.
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        // Convert to a regular 2D matrix
+        foreach ($puzzle as $row) {
+            $puzzle_matrix[] = str_split($row, 1);
+        }
+
+        // Find the locations of each antenna
+        $this->antennaLoc = collect([]);
+        for ($i = 0; $i < $this->nRow; $i++) {
+            for ($j = 0; $j < $this->nCol; $j++) {
+                // Initialize a map of antinodes
+                $antinodeMap[$i][$j] = ".";
+                if ($puzzle_matrix[$i][$j] != ".") {
+                    $this->antennaLoc->push([
+                        "f" => $puzzle_matrix[$i][$j],
+                        "x" => $i,
+                        "y" => $j]);
+                }
+            }
+        }
+
+        // Group the collection of antenna locations by frequency
+        $this->antennaLoc = $this->antennaLoc->groupBy('f');
+        // Iterate through each frequency
+        foreach ($this->antennaLoc as $freq => $locations) {
+            $n = $locations->count();
+            $l = $locations->toArray();
+            for ($i = 0; $i < $n-1; $i++) {
+                for ($j = $i+1; $j <= $n-1; $j++) {
+                    $r1 = $l[$i]['x'];
+                    $c1 = $l[$i]['y'];
+                    $r2 = $l[$j]['x'];
+                    $c2 = $l[$j]['y'];
+
+                    // Calculate the antinode location
+                    $r = 2*$r1-$r2;
+                    $c = 2*$c1-$c2;
+
+                    // Figure out if the coordinates are still within the map.
+                    $stillInMap = $r >= 0 && $r < $this->nRow && $c >= 0 && $c < $this->nCol;
+
+                    if ($stillInMap) {
+                        $antinodeMap[$r][$c] = '#';
+                    }
+                    $r = 2*$r2-$r1;
+                    $c = 2*$c2-$c1;
+                    $stillInMap = $r >= 0 && $r < $this->nRow && $c >= 0 && $c < $this->nCol;
+                    if ($stillInMap) {
+                        $antinodeMap[$r][$c] = '#';
+                    }
+                }
+            }
+        }
+        // Count up all the #s
+        $n = 0;
+        $r = 0;
+        for ($i = 0; $i < $this->nRow; $i++) {
+            for ($j = 0; $j < $this->nCol; $j++) {
+                if ($antinodeMap[$i][$j] == "#") $n++;
+            }
+        }
+        $this->info("There are " . $n . " antinodes");
     }
 }
