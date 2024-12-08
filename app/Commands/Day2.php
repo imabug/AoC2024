@@ -35,6 +35,7 @@ class Day2 extends Command
     {
         $descending = 1;
         $n = $r->count();
+        $keys = $r->keys();
         for ($i = 0; $i < $n-1; $i++) {
             if ($r[$i] > $r[$i+1]) {
                 $descending *= 1;
@@ -71,6 +72,8 @@ class Day2 extends Command
         // Part 1: Analyze reports
         $f = fopen($this->argument('data'), 'r');
 
+        $unsafe = collect([]);
+
         while (($l = fgets($f)) !== false) {
             $report = collect(explode(" ", $l));
             // Convert the elements in $reports to integers
@@ -79,22 +82,53 @@ class Day2 extends Command
             });
             // If the sequence of levels is not in descending
             // or ascending order, skip the rest of the loop
-            if (!$this->isDescending($report) && !$this->isAscending($report)) continue;
+            if (!$this->isDescending($report) && !$this->isAscending($report)) {
+                $unsafe->push($report);  // Add to the list of unsafe reports
+                continue;
+            }
 
-            // Chunk the list of reports into pairs
+            // Chunk the report into pairs of levels
             $reportChunks = $report->sliding(2);
-
-            $isSafe = 1;
+            // Calculate the difference between level pairs
             $diffs = $reportChunks->mapSpread(function (int $a, int $b) {
                 return $diff = abs($a - $b);
             });
-            var_dump($diffs);
-            $this->info('Min diff: ' . $diffs->min());
-            $this->info('Max diff: ' . $diffs->max());
+
             if ($diffs->min() >= 1 && $diffs->max() <= 3) {
                 $this->safeReports++;
+            } else {
+                $unsafe->push($report);  // Add to the list of unsafe reports
             }
         }
         $this->info('The number of safe reports is ' . $this->safeReports);
+
+        // Part 2
+        // See if removing a level will make the report safe
+        $unsafe->each(function (Collection $item) {
+            for ($i = 0; $i < $item->count(); $i++) {
+                // Get a new collection with all the elements except the i-th item.
+                // values() returns just the values of the collection without the
+                // indexes
+                $r_dampened = $item->except($i)->values();
+                // If the sequence of levels is not in descending
+                // or ascending order, skip the rest of the loop
+                if(!$this->isDescending($r_dampened) && !$this->isAscending($r_dampened)) {
+                    continue;
+                }
+                // Chunk the report into pairs of levels
+                $reportChunks = $r_dampened->sliding(2);
+                // Calculate the difference between level pairs
+                $diffs = $reportChunks->mapSpread(function (int $a, int $b) {
+                    return $diff = abs($a - $b);
+                });
+                if ($diffs->min() >= 1 && $diffs->max() <= 3) {
+                    $this->safeReports++;
+                    $i = $item->count();
+                    continue;
+                }
+            }
+        });
+
+        $this->info('Number of safe reports with Problem Dampener is ' . $this->safeReports);
     }
 }
