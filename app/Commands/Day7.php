@@ -20,6 +20,22 @@ class Day7 extends Command
      */
     protected $description = 'Advent of Code 2024 Day 7';
 
+    private function canObtain(int $result, array $terms): bool
+    {
+        if (count($terms) == 1) {
+            return $result == $terms[0];
+        }
+        $lastTerm = array_pop($terms);
+        if (($result % $lastTerm == 0) and $this->canObtain($result / $lastTerm, $terms)) {
+            return true;
+        }
+        if ($result > $lastTerm and $this->canObtain($result - $lastTerm, $terms)) {
+            return true;
+        }
+        return false;
+
+    }
+
     /**
      * Execute the console command.
      */
@@ -39,8 +55,10 @@ class Day7 extends Command
             list($result, $terms) = explode(": ", $row);
             // Convert the terms into an array of individual values
             $terms = explode(" ", $terms);
-
-
+            if ($this->canObtain($result, $terms)) {
+                $calSum += $result;
+            }
         }
+        $this->info("Total calibration result is " . $calSum);
     }
 }
