@@ -33,7 +33,6 @@ class Day7 extends Command
             return true;
         }
         return false;
-
     }
 
     /**
