@@ -60,7 +60,7 @@ class Day4 extends Command
 
         // Get the size of the puzzle.  Assume each row is the same length.
         $nRow = count($puzzle);
-        $ncol = strlen($puzzle[0]);
+        $nCol = strlen($puzzle[0]);
 
         // Search each array element for the strings 'XMAS' or 'SAMX'
         $this->nXmas += $this->xmasSearch($puzzle);
@@ -78,13 +78,9 @@ class Day4 extends Command
         // Search the transposed array.
         $this->nXmas += $this->xmasSearch($puzzle_t);
 
-        // Map the diagonals to an array
-        $puzzle_diag = array();
-        for ($i = 0; $i < $nRow; $i++) {
-            for ($j = 0; $j < $nRow; $j++) {
+        $this->info("Found " . $this->nXmas . " along the horizontal and verticals");
 
-            }
-        }
+        // Map the diagonals to an array
     }
 
 }
