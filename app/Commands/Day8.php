@@ -54,8 +54,9 @@ class Day8 extends Command
         $this->antennaLoc = collect([]);
         for ($i = 0; $i < $this->nRow; $i++) {
             for ($j = 0; $j < $this->nCol; $j++) {
-                // Initialize a map of antinodes
+                // Initialize a map of antinodes (part 1) and resonant antinodes (part 2)
                 $antinodeMap[$i][$j] = ".";
+                $resMap[$i][$j] = ".";
                 if ($puzzle_matrix[$i][$j] != ".") {
                     $this->antennaLoc->push([
                         "f" => $puzzle_matrix[$i][$j],
@@ -83,16 +84,51 @@ class Day8 extends Command
                     $c = 2*$c1-$c2;
 
                     // Figure out if the coordinates are still within the map.
-                    $stillInMap = $r >= 0 && $r < $this->nRow && $c >= 0 && $c < $this->nCol;
+                    $stillInMap = ($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol);
 
                     if ($stillInMap) {
                         $antinodeMap[$r][$c] = '#';
                     }
                     $r = 2*$r2-$r1;
                     $c = 2*$c2-$c1;
-                    $stillInMap = $r >= 0 && $r < $this->nRow && $c >= 0 && $c < $this->nCol;
+                    $stillInMap = ($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol);
                     if ($stillInMap) {
                         $antinodeMap[$r][$c] = '#';
+                    }
+                }
+            }
+
+            // Part 2: Look for resonant harmonic antinodes
+            for ($i = 0; $i < $n-1; $i++) {
+                for ($j = $i+1; $j <= $n-1; $j++) {
+                    $r1 = $l[$i]['x'];
+                    $c1 = $l[$i]['y'];
+                    $r2 = $l[$j]['x'];
+                    $c2 = $l[$j]['y'];
+                    $dr = $r2 - $r1;
+                    $dc = $c2 - $c1;
+
+                    $r = $r2;
+                    $c = $c2;
+                    while (($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol)) {
+                        $r -= $dr;
+                        $c -= $dc;
+                        $stillInMap = ($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol);
+
+                        if ($stillInMap) {
+                            $resMap[$r][$c] = '#';
+                        }
+                    }
+                    $r = $r1;
+                    $c = $c1;
+                    while (($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol)) {
+                        $r += $dr;
+                        $c += $dc;
+                        $stillInMap = ($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol);
+
+                        if ($stillInMap) {
+                            $resMap[$r][$c] = '#';
+                        }
                     }
                 }
             }
@@ -103,8 +139,10 @@ class Day8 extends Command
         for ($i = 0; $i < $this->nRow; $i++) {
             for ($j = 0; $j < $this->nCol; $j++) {
                 if ($antinodeMap[$i][$j] == "#") $n++;
+                if ($resMap[$i][$j] == "#") $r++;
             }
         }
         $this->info("There are " . $n . " antinodes");
+        $this->info("There are ".$r." resonant antinodes");
     }
 }
