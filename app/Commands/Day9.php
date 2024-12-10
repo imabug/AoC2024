@@ -53,24 +53,26 @@ class Day9 extends Command
             $fileId++;
         }
 
-        var_dump($hardDrive);
-
         $k_last = array_key_last($hardDrive);
-        $n = count($hardDrive);
+        $this->info($k_last);
+        $i = 0;
         // Start the decompression
-        for ($i = 0; $i < $n; $i++) {
+        while ($i < $k_last) {
             if ($hardDrive[$i] == ".") {
-                // Block isn't a free space.  Keep going.
                 // Found a blank block.  Find key of the last non-empty block
-                // and swap it with this one
-                while ($hardDrive[$k_last] != ".") {
-                    $lastFileId = $hardDrive[$k_last];
+                // and swap its contents with this one
+                while ($hardDrive[$k_last] == ".") {
+                    // Skip any blank space we run into.
                     $k_last--;
                 }
-                $harddrive[$key] = $lastFileId;
+                $this->info("(".$i.",".$k_last.") - ".$hardDrive[$i].'<->'.$hardDrive[$k_last]);
+                $harddrive[$i] = $hardDrive[$k_last];
                 $harddrive[$k_last] = ".";
+                $this->info("(".$i.",".$k_last.") - ".$hardDrive[$i].'<->'.$hardDrive[$k_last]);
+                $k_last--;
             }
+            $i++;
         }
-        var_dump($hardDrive);
+//        var_dump($hardDrive);
     }
 }
