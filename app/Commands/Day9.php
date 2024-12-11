@@ -54,7 +54,6 @@ class Day9 extends Command
         }
 
         $k_last = array_key_last($hardDrive);
-        $this->info($k_last);
         $i = 0;
         // Start the decompression
         while ($i < $k_last) {
@@ -65,14 +64,21 @@ class Day9 extends Command
                     // Skip any blank space we run into.
                     $k_last--;
                 }
-                $this->info("(".$i.",".$k_last.") - ".$hardDrive[$i].'<->'.$hardDrive[$k_last]);
-                $harddrive[$i] = $hardDrive[$k_last];
-                $harddrive[$k_last] = ".";
-                $this->info("(".$i.",".$k_last.") - ".$hardDrive[$i].'<->'.$hardDrive[$k_last]);
+                // For some reason, this isn't swapping the array values.
+                $hardDrive[$i] = $hardDrive[$k_last];
+                $hardDrive[$k_last] = ".";
                 $k_last--;
             }
             $i++;
         }
-//        var_dump($hardDrive);
+
+        // Compute the checksum
+        $i = 0;
+        $checkSum = 0;
+        while ($hardDrive[$i] != ".") {
+            $checkSum += $i*$hardDrive[$i];
+            $i++;
+        }
+        $this->info("Filesystem checksum: " . $checkSum);
     }
 }
