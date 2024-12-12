@@ -33,7 +33,7 @@ class Day11 extends Command
             $stones[$k] = intval($v);
         }
 
-        for ($blink = 0; $blink < 25; $blink++) {
+        for ($blink = 0; $blink < 75; $blink++) {
             foreach ($stones as $k=>$v) {
                 if ($v == 0) {
                     // Stone has a 0 on it.  Change it to 1.
@@ -50,7 +50,11 @@ class Day11 extends Command
                     $stones[$k] = $v*2024;
                 }
             }
+            if ($blink == 24) {
+                $this->info("There are " . count($stones) . " stones after 25 blinks");
+            }
+            $this->info("Blink: " . $blink);
         }
-        $this->info("There are " . count($stones));
+        $this->info("There are " . count($stones) . " stones after 75 blinks");
     }
 }
