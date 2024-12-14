@@ -46,6 +46,8 @@ class Day13 extends Command
 
         $tokens = 0;
         $nPrizes = 0;
+        $corrTokens = 0; // Count tokens for part 2
+        $corrPrizes = 0; // Count prizes for part 2
         while (count($puzzle) > 0) {
             // Get Button A line
             $a = array_shift($puzzle);
@@ -66,24 +68,42 @@ class Day13 extends Command
             // If the determinant of the matrix != 0, the
             // matrix can be inverted and there's a solution
             $det = ($ax*$by) - ($bx*$ay);
-            $this->info("Determinant: ".$det);
             if ($det != 0) {
                 // Get the prize coordinates
                 $match[] = preg_match_all('/\d+/', $prize, $match);
                 $px = intval($match[0][0]); // Px
                 $py = intval($match[0][1]); // Py
                 // Calculate the number of A and B button presses
-                $x = intval(($px*$by - $py*$bx)/$det); // A button presses
-                $y = intval((-$px*$ay + $py*$ax)/$det); // B button presses
+                // $x = intval(($px*$by - $py*$bx)/$det); // A button presses
+                // $y = intval((-$px*$ay + $py*$ax)/$det); // B button presses
+                $x = ($px*$by - $py*$bx)/$det;
+                $y = (-$px*$ay + $py*$ax)/$det;
 
-                $this->info($x." ".$y);
-                if (($x > 0 && $x <= 100) && ($y > 0 && $y <= 100)) {
+                // Don't count solutions that require:
+                // 1. negative number of button presses
+                // 2. more than 100 button presses
+                // 3. non-integer number of button presses
+                if (($x > 0 && $x <= 100 && is_int($x)) && ($y > 0 && $y <= 100 && is_int($y))) {
                     $nPrizes++; // Won a prize!
                     $tokens += $x*3 + $y;
+                }
+
+                // Part 2: Prize location coordinates are off by 10000000000000
+                // in each direction
+                $px += 10000000000000;
+                $py += 10000000000000;
+                $x = ($px*$by - $py*$bx)/$det;
+                $y = (-$px*$ay + $py*$ax)/$det;
+                // Don't exclude solutions with more than 100 button presses
+                if (($x > 0 && is_int($x)) && ($y > 0 && is_int($y))) {
+                    $corrPrizes++; // Won a prize!
+                    $corrTokens += $x*3 + $y;
                 }
             }
         }
         $this->info("Won " . $nPrizes . " prizes!");
         $this->info("Had to spend " . $tokens . " to win the prizes.");
+        $this->info("Won " . $corrPrizes . " prizes with adjusted prize locations.");
+        $this->info("Had to spend " . $corrTokens . " to win the prizes.");
     }
 }
