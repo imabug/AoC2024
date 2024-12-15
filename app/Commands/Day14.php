@@ -53,58 +53,61 @@ class Day14 extends Command
             $y = intval($match[0][1]);
             $vx = intval($match[0][2]);
             $vy = intval($match[0][3]);
-            // Position the robot
-            $hallway[$x][$y]++;
-            $robot[] = ["x" => $x, // Robot's current x/y position
-                        "y" => $y,
-                        "vx" => $vx, // Robot's velocity vector
-                        "vy" => $vy];
+            // // Position the robot
+            // $hallway[$x][$y]++;
+            // $robot[] = ["x" => $x, // Robot's current x/y position
+            //             "y" => $y,
+            //             "vx" => $vx, // Robot's velocity vector
+            //             "vy" => $vy];
+            $newx = abs(($x + 100*$vx) % ($nCol-1));
+            $newy = abs(($y + 100*$vy) % ($nRow-1));
+            $hallway[$newx][$newy]++;
         }
 
-        // Move the robots for 100 seconds
-        for ($t = 0; $t < 100; $t++) {
-            // Move each robot
-            foreach ($robot as $r => $v) {
-                // Get the robot's current position and
-                // Calculate the new location
-                $oldx = $robot[$r]["x"];
-                $oldy = $robot[$r]["y"];
-                $vx = $robot[$r]["vx"];
-                $vy = $robot[$r]["vy"];
-                $newx = $oldx + $vx;
-                $newy = $oldy + $vy;
-                // Check if the robot has gone off any of the edges
-                if ($newx < 0) {
-                    // Off the left edge of the hall.
-                    // Wrap around to the right side
-                    $newx = $oldx + $vx + ($nCol-1);
-                }
-                if ($newx >= $nCol) {
-                    // Off the right edge of the hall.
-                    // Wrap around to the left side
-                    $newx = $oldx + $vx - ($nCol - 1);
-                }
-                if ($newy < 0) {
-                    // Off the top edge of the hall
-                    // Wrap around to the bottom side.
-                    $newy = $oldy + $vy + ($nRow-1);
-                }
-                if ($newy >= $nRow) {
-                    // Off the bottom edge of the hall.
-                    // Wrap around to the top side
-                    $newy = $oldy + $vy - ($nCol - 1);
-                }
-                // Remove the robot from the original spot
-                $hallway[$oldx][$oldy]--;
-                // Add the robot to the new spot
-                $hallway[$newx][$newy]++;
-                // Update the robot's position
-                $robot[$r] = ["x" => $newx,
-                              "y" => $newy,
-                              "vx" => $vx,
-                              "vy" => $vy];
-            }
-        }
+        // // Move the robots for 100 seconds
+        // for ($t = 0; $t < 100; $t++) {
+        //     // Move each robot
+        //     foreach ($robot as $r => $v) {
+        //         // Get the robot's current position and
+        //         // Calculate the new location
+        //         $oldx = $robot[$r]["x"];
+        //         $oldy = $robot[$r]["y"];
+        //         $vx = $robot[$r]["vx"];
+        //         $vy = $robot[$r]["vy"];
+        //         $newx = $oldx + $vx;
+        //         $newy = $oldy + $vy;
+        //         // Check if the robot has gone off any of the edges
+        //         if ($newx < 0) {
+        //             // Off the left edge of the hall.
+        //             // Wrap around to the right side
+        //             $newx = $oldx + $vx + ($nCol-1);
+        //         }
+        //         if ($newx >= $nCol) {
+        //             // Off the right edge of the hall.
+        //             // Wrap around to the left side
+        //             $newx = $oldx + $vx - ($nCol - 1);
+        //         }
+        //         if ($newy < 0) {
+        //             // Off the top edge of the hall
+        //             // Wrap around to the bottom side.
+        //             $newy = $oldy + $vy + ($nRow-1);
+        //         }
+        //         if ($newy >= $nRow) {
+        //             // Off the bottom edge of the hall.
+        //             // Wrap around to the top side
+        //             $newy = $oldy + $vy - ($nCol - 1);
+        //         }
+        //         // Remove the robot from the original spot
+        //         $hallway[$oldx][$oldy]--;
+        //         // Add the robot to the new spot
+        //         $hallway[$newx][$newy]++;
+        //         // Update the robot's position
+        //         $robot[$r] = ["x" => $newx,
+        //                       "y" => $newy,
+        //                       "vx" => $vx,
+        //                       "vy" => $vy];
+        //     }
+        // }
         // Calculate safety factor
         $nRobots = ["Q1" => 0, // Top left quadrant
                     "Q2" => 0, // Top right quadrant
@@ -118,6 +121,7 @@ class Day14 extends Command
                 $nRobots["Q4"] += $hallway[$i+($nCol-1)/2+1][$j+($nRow-1)/2+1];
             }
         }
+        var_dump($nRobots);
         $this->info("Safety factor: " . array_product($nRobots));
     }
 }
