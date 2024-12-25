@@ -30,7 +30,7 @@ class Day22 extends Command
         $puzzle = file($this->argument('data'), FILE_IGNORE_NEW_LINES);
 
         $sum = 0;
-        while(count($puzzle) > 0) {
+        while (count($puzzle) > 0) {
             $s = array_pop($puzzle);
             // Calculate the 2000th secret number
             for ($i = 0; $i < 2000; $i++) {
