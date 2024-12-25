@@ -32,14 +32,20 @@ class Day22 extends Command
         $sum = 0;
         while (count($puzzle) > 0) {
             $s = array_pop($puzzle);
+            $t = array_pop($puzzle);
             // Calculate the 2000th secret number
             for ($i = 0; $i < 2000; $i++) {
                 $s1 = (($s * 64) ^ $s) % 16777216;
                 $s2 = (($s1 / 32) ^ $s1) % 16777216;
                 $s3 = (($s2 * 2048) ^ $s2) % 16777216;
                 $s = $s3;
+
+                $t1 = (($t * 64) ^ $t) % 16777216;
+                $t2 = (($t1 / 32) ^ $t1) % 16777216;
+                $t3 = (($t2 * 2048) ^ $t2) % 16777216;
+                $t = $t3;
             }
-            $sum += $s3;
+            $sum = $sum + $s3 + $t3;
         }
         $this->info("Sum: " . $sum);
     }
