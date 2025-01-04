@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.2.0",
+        "graphp/graph": "^1@dev",
         "intonate/tinker-zero": "^1.2",
         "laravel-zero/framework": "^11.0.2"
     },
