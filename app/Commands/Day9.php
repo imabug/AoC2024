@@ -76,7 +76,7 @@ class Day9 extends Command
         $i = 0;
         $checkSum = 0;
         while ($hardDrive[$i] != ".") {
-            $checkSum += $i*$hardDrive[$i];
+            $checkSum += $i * $hardDrive[$i];
             $i++;
         }
         $this->info("Filesystem checksum: " . $checkSum);

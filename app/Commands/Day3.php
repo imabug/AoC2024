@@ -54,7 +54,7 @@ class Day3 extends Command
                 $nums->transform(function (string $s) {
                     return intval($s);
                 });
-                return $nums[0]*$nums[1];
+                return $nums[0] * $nums[1];
             });
             $this->multsum += $products->sum();
         }

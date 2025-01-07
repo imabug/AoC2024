@@ -149,5 +149,5 @@ class Day22 extends Command
         $end = microtime(true);
         $this->info("Brute force bit shifting took " . ($end - $start) . " seconds");
 
-}
+    }
 }

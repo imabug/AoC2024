@@ -30,7 +30,7 @@ class Day11 extends Command
         $stones = explode(" ", $puzzle[0]);
 
         $s = [];
-        foreach ($stones as $k=>$v) {
+        foreach ($stones as $k => $v) {
             // Store the stones in an array with the stone's value as the key
             // and the number of stones as the value
             $s[$v] = 1;
@@ -43,7 +43,7 @@ class Day11 extends Command
         // 3. Rules 1 and 2 don't apply.  Multiply stone value by 2024.  No new stone is created.
 
         for ($blink = 1; $blink <= 75; $blink++) {
-            foreach ($s as $k=>$v) {
+            foreach ($s as $k => $v) {
                 if ($k == 0) {
                     // Rule 1.  Replace the $v 0 stones with $v 1 stones
                     // Replace all the 0 stones with 1
@@ -54,14 +54,14 @@ class Day11 extends Command
                         $s[1] = $v;
                         $s[0] -= $v;
                     }
-                } else if ((strlen((string)$k) % 2) == 0) {
+                } elseif ((strlen((string)$k) % 2) == 0) {
                     // Number has an even number of digits
                     // There are $v stones with the number $k on them
                     $l = strlen((string)$k);  // Number of digits
                     // Left half of the number
-                    $left = intval(substr((string)$k, 0, $l/2));
+                    $left = intval(substr((string)$k, 0, $l / 2));
                     // Right half of the number
-                    $right = intval(substr((string)$k, $l/2, $l/2));
+                    $right = intval(substr((string)$k, $l / 2, $l / 2));
                     if (array_key_exists($left, $s)) {
                         // If a stone with the left number exists,
                         // add $v more of them
@@ -81,15 +81,15 @@ class Day11 extends Command
                     // Remove the $v stones with the number $k on them
                     $s[$k] -= $v;
                 } else {
-                    if (array_key_exists($k*2024, $s)) {
+                    if (array_key_exists($k * 2024, $s)) {
                         // If a stone with the number $k*2024 exists,
                         // Add $v more of them
-                        $s[$k*2024] += $v;
+                        $s[$k * 2024] += $v;
                         // Remove the $v stones with $k on them
-                        $s[$k] -=$v;
+                        $s[$k] -= $v;
                     } else {
                         // Create $v new stones
-                        $s[$k*2024] = $v;
+                        $s[$k * 2024] = $v;
                         $s[$k] -= $v;
                     }
                 }

@@ -207,7 +207,9 @@ class Day6 extends Command
         $n = 0;
         for ($i = 0; $i < $this->nRow; $i++) {
             for ($j = 0; $j < $this->nCol; $j++) {
-                if ($puzzle_matrix[$i][$j] == "X") $n++;
+                if ($puzzle_matrix[$i][$j] == "X") {
+                    $n++;
+                }
             }
         }
         $this->info("There are " . $n . " Xs");

@@ -72,7 +72,7 @@ class Day24 extends Command
 
         // Keep looping through the $gates array until there are no more
         // null values
-        while(in_array(null, $gates, true)) {
+        while (in_array(null, $gates, true)) {
             // Go through each element of the $ops array
             foreach ($ops as $g => $v) {
                 // If the current value of gate $g is null, see if we can process it

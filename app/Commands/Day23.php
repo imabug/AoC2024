@@ -2,7 +2,7 @@
 
 namespace App\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
+use Graphp\Graph;
 use LaravelZero\Framework\Commands\Command;
 
 class Day23 extends Command
@@ -12,14 +12,14 @@ class Day23 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:day23';
+    protected $signature = 'app:day23 {data}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Advent of Code 2024 Day 23';
 
     /**
      * Execute the console command.
@@ -27,13 +27,6 @@ class Day23 extends Command
     public function handle()
     {
         //
-    }
-
-    /**
-     * Define the command's schedule.
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        $puzzle = file($this->argument('data'), FILE_IGNORE_NEW_LINES);
     }
 }

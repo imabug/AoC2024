@@ -36,11 +36,11 @@ class Day2 extends Command
         $descending = 1;
         $n = $r->count();
         $keys = $r->keys();
-        for ($i = 0; $i < $n-1; $i++) {
-            if ($r[$i] > $r[$i+1]) {
+        for ($i = 0; $i < $n - 1; $i++) {
+            if ($r[$i] > $r[$i + 1]) {
                 $descending *= 1;
             }
-            if ($r[$i] <= $r[$i+1]) {
+            if ($r[$i] <= $r[$i + 1]) {
                 $descending *= 0;
             }
         }
@@ -53,11 +53,11 @@ class Day2 extends Command
     {
         $ascending = 1;
         $n = $r->count();
-        for ($i = 0; $i < $n-1; $i++) {
-            if ($r[$i] < $r[$i+1]) {
+        for ($i = 0; $i < $n - 1; $i++) {
+            if ($r[$i] < $r[$i + 1]) {
                 $ascending *= 1;
             }
-            if ($r[$i] > $r[$i+1]) {
+            if ($r[$i] > $r[$i + 1]) {
                 $ascending *= 0;
             }
         }
@@ -112,7 +112,7 @@ class Day2 extends Command
                 $r_dampened = $item->except($i)->values();
                 // If the sequence of levels is not in descending
                 // or ascending order, skip the rest of the loop
-                if(!$this->isDescending($r_dampened) && !$this->isAscending($r_dampened)) {
+                if (!$this->isDescending($r_dampened) && !$this->isAscending($r_dampened)) {
                     continue;
                 }
                 // Chunk the report into pairs of levels

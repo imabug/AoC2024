@@ -72,16 +72,16 @@ class Day8 extends Command
         foreach ($this->antennaLoc as $freq => $locations) {
             $n = $locations->count();
             $l = $locations->toArray();
-            for ($i = 0; $i < $n-1; $i++) {
-                for ($j = $i+1; $j <= $n-1; $j++) {
+            for ($i = 0; $i < $n - 1; $i++) {
+                for ($j = $i + 1; $j <= $n - 1; $j++) {
                     $r1 = $l[$i]['x'];
                     $c1 = $l[$i]['y'];
                     $r2 = $l[$j]['x'];
                     $c2 = $l[$j]['y'];
 
                     // Calculate the antinode location
-                    $r = 2*$r1-$r2;
-                    $c = 2*$c1-$c2;
+                    $r = 2 * $r1 - $r2;
+                    $c = 2 * $c1 - $c2;
 
                     // Figure out if the coordinates are still within the map.
                     $stillInMap = ($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol);
@@ -89,8 +89,8 @@ class Day8 extends Command
                     if ($stillInMap) {
                         $antinodeMap[$r][$c] = '#';
                     }
-                    $r = 2*$r2-$r1;
-                    $c = 2*$c2-$c1;
+                    $r = 2 * $r2 - $r1;
+                    $c = 2 * $c2 - $c1;
                     $stillInMap = ($r >= 0) && ($r < $this->nRow) && ($c >= 0) && ($c < $this->nCol);
                     if ($stillInMap) {
                         $antinodeMap[$r][$c] = '#';
@@ -99,8 +99,8 @@ class Day8 extends Command
             }
 
             // Part 2: Look for resonant harmonic antinodes
-            for ($i = 0; $i < $n-1; $i++) {
-                for ($j = $i+1; $j <= $n-1; $j++) {
+            for ($i = 0; $i < $n - 1; $i++) {
+                for ($j = $i + 1; $j <= $n - 1; $j++) {
                     $r1 = $l[$i]['x'];
                     $c1 = $l[$i]['y'];
                     $r2 = $l[$j]['x'];
@@ -138,8 +138,12 @@ class Day8 extends Command
         $r = 0;
         for ($i = 0; $i < $this->nRow; $i++) {
             for ($j = 0; $j < $this->nCol; $j++) {
-                if ($antinodeMap[$i][$j] == "#") $n++;
-                if ($resMap[$i][$j] == "#") $r++;
+                if ($antinodeMap[$i][$j] == "#") {
+                    $n++;
+                }
+                if ($resMap[$i][$j] == "#") {
+                    $r++;
+                }
             }
         }
         $this->info("There are " . $n . " antinodes");

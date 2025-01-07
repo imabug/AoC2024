@@ -36,8 +36,8 @@ class Day14 extends Command
         // Initialize the puzzle space.  Each
         // element of the puzzle space holds the number
         // of robots in that tile
-        for ($i=0;$i<$nRow; $i++) {
-            for ($j=0;$j<$nCol;$j++) {
+        for ($i = 0;$i < $nRow; $i++) {
+            for ($j = 0;$j < $nCol;$j++) {
                 $hallway[$i][$j] = 0;
             }
         }
@@ -61,12 +61,12 @@ class Day14 extends Command
             //             "y" => $y,
             //             "vx" => $vx, // Robot's velocity vector
             //             "vy" => $vy];
-            $newx = abs($x + 100*$vx) % $nCol;
-            $newy = abs($y + 100*$vy) % $nRow;
+            $newx = abs($x + 100 * $vx) % $nCol;
+            $newy = abs($y + 100 * $vy) % $nRow;
             $hallway[$newy][$newx]++;
         }
 
-        foreach ($hallway as $r=>$v) {
+        foreach ($hallway as $r => $v) {
             $h[] = implode($v);
         }
         var_dump($h);
@@ -119,12 +119,12 @@ class Day14 extends Command
                     "Q2" => 0, // Top right quadrant
                     "Q3" => 0, // Bottom left quadrant
                     "Q4" => 0]; // Bottom right quadrant
-        for ($i = 0; $i < ($nRow - 1)/2; $i++) {
-            for ($j = 0; $j < ($nCol - 1)/2; $j++) {
+        for ($i = 0; $i < ($nRow - 1) / 2; $i++) {
+            for ($j = 0; $j < ($nCol - 1) / 2; $j++) {
                 $nRobots["Q1"] += $hallway[$i][$j];
-                $nRobots["Q2"] += $hallway[$i][$j+($nCol-1)/2+1];
-                $nRobots["Q3"] += $hallway[$i+($nRow - 1)/2+1][$j];
-                $nRobots["Q4"] += $hallway[$i+($nRow-1)/2+1][$j+($nCol-1)/2+1];
+                $nRobots["Q2"] += $hallway[$i][$j + ($nCol - 1) / 2 + 1];
+                $nRobots["Q3"] += $hallway[$i + ($nRow - 1) / 2 + 1][$j];
+                $nRobots["Q4"] += $hallway[$i + ($nRow - 1) / 2 + 1][$j + ($nCol - 1) / 2 + 1];
             }
         }
         var_dump($nRobots);
