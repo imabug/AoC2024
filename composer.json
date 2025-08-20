@@ -4,7 +4,7 @@
     "keywords": [""],
     "homepage": "",
     "type": "project",
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Eugene Mah",
