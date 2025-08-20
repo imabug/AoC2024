@@ -1,8 +1,8 @@
 {
-    "name": "imabug/AoC2024",
+    "name": "imabug/aoc2024",
     "description": "Code for Advent of Code 2024",
     "keywords": [""],
-    "homepage": "",
+    "homepage": "https://v16.imablog.net/",
     "type": "project",
     "license": "GPL-3.0-or-later",
     "authors": [
